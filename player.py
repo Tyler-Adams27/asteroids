@@ -1,15 +1,16 @@
-from main import *
-from circleshape import *
+import pygame
 from constants import *
+from circleshape import *
+from main import *
+
 
 class Player(CircleShape):
-    def __init__(self, x, y, radius):
-        super().__init__(x, y, radius)
-        self.__x = x
-        self.__y = y
-        self.__radius = radius
-        self.__player_radius = PLAYER_RADIUS
-        self.rotation = 0.0
+    def __init__(self, x, y):
+        super().__init__(x, y, PLAYER_RADIUS)
+        self.rotation = 0
+
+    def draw(self, screen):
+        pygame.draw.polygon(screen, "white", self.triangle(), 2)
 
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
@@ -18,25 +19,22 @@ class Player(CircleShape):
         b = self.position - forward * self.radius - right
         c = self.position - forward * self.radius + right
         return [a, b, c]
-    def draw(self,screen):
-        pygame.draw.polygon(screen,color="White",points=self.triangle(), width=2)
-
-    def rotate(self,dt):
-        self.rotation += PLAYER_TURN_SPEED * dt
 
     def update(self, dt):
-        pygame.event.pump()
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_a]:
-            self.rotate(-dt)
-        if keys[pygame.K_d]:
-            self.rotate(dt)
         if keys[pygame.K_w]:
             self.move(dt)
         if keys[pygame.K_s]:
             self.move(-dt)
+        if keys[pygame.K_a]:
+            self.rotate(-dt)
+        if keys[pygame.K_d]:
+            self.rotate(dt)
 
-    def move(self,dt):
+    def rotate(self, dt):
+        self.rotation += PLAYER_TURN_SPEED * dt
+
+    def move(self, dt):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         self.position += forward * PLAYER_SPEED * dt

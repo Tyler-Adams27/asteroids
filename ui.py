@@ -1,6 +1,6 @@
 import pygame
 from main import *
-
+# test
 score = 0
 
 def update_ui(score,font,screen):

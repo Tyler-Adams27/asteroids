@@ -5,7 +5,6 @@ from player import Player
 from asteroid import Asteroid
 from asteroidfield import AsteroidField
 from shot import Shot
-from ui import *
 from death import *
 
 
@@ -45,12 +44,11 @@ def main():
                 
             for shot in shots:
                 if asteroid.collides_with(shot):
-                    add_to_score(score)
                     shot.kill()
                     asteroid.split()
 
         screen.fill("black")
-        update_ui(score, pygame.font.Font(None, 36), screen)
+
 
 
         for obj in drawable:
